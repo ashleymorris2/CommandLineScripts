@@ -2,6 +2,8 @@ import click
 import moment
 from datetime import datetime
 
+#http://click.pocoo.org/5/quickstart/#quickstart
+
 @click.command()
 @click.argument('time')
 #@click.option('--time', prompt='The timestamp to format', help='Formats a unix millisecond time stamp to human readable.')
