@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/TimeFormatter.iml" filepath="$PROJECT_DIR$/.idea/TimeFormatter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Command Line Scripts.iml" filepath="$PROJECT_DIR$/.idea/Command Line Scripts.iml" />
     </modules>
   </component>
 </project>
