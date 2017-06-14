@@ -17,11 +17,13 @@ def between(time1, time2):
         time1 = get_length(time1)
         time2 = get_length(time2)
 
-        difference = time1 - time2
+        if time1 < time2:
+            difference = time2 - time1
+        else:
+            difference = time1 - time2
 
         dif_sec, dif_mins, dif_hours = convert_millis(difference)
-
-        click.echo("{0}hours {1}minutes {2}seconds".format(dif_hours, dif_mins, dif_sec))
+        click.echo("{0} hours {1} minutes {2} seconds".format(dif_hours, dif_mins, dif_sec))
     except ValueError:
         click.echo("The value that was entered is not valid")
 
@@ -37,8 +39,8 @@ def convert_millis(millis):
     return seconds, minutes, hours
 
 
+# check if they are milliseconds or unix epoch
 def get_length(millis):
-
     millis = str(millis)
     length = len(millis)
 
