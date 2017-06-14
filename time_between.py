@@ -38,11 +38,13 @@ def convert_millis(millis):
 
 
 def get_length(millis):
-    length = len(str(millis))
 
-    if length < 10:
-        millis = str(millis)
-        millis += "000"
+    millis = str(millis)
+    length = len(millis)
+
+    while length != 13:
+        millis += "0"
+        length = len(millis)
 
     return float(millis)
 
