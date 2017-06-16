@@ -1,13 +1,14 @@
 import click
 import moment
-from datetime import datetime
+
+from time_conversion import TimeConversion
 
 
 # http://click.pocoo.org/5/quickstart/#quickstart
 
 @click.command()
-@click.option('--work_hours', '-w', default=False,
-              help='Formats a unix millisecond time stamp to human readable.')
+@click.option('--work_hours', '-w', is_flag=True,
+              help='Specifies whether to calculate working hours remaining only.')
 def between(work_hours):
     """Calculate the difference now and the weekend"""
     try:
@@ -19,42 +20,25 @@ def between(work_hours):
 
         difference = time2 - time1
 
-        dif_sec, dif_mins, dif_hours, diff_days = convert_millis(difference)
+        if work_hours:
+            day = 7.5 * 3600000
+
+            day_end = moment.now().replace(hours=15, minutes=30, seconds=0).epoch() * 1000
+
+            # difference today
+            difference = day_end - time1
+            weekday = moment.now().weekday + 1
+
+            while weekday < 6:
+                difference += day
+                weekday += 1
+
+        dif_sec, dif_mins, dif_hours, diff_days = TimeConversion.convert_millis(difference)
 
         click.echo("{0} days {1} hours {2} minutes {3} seconds".format(diff_days, dif_hours, dif_mins, dif_sec))
+
     except ValueError:
         click.echo("The value that was entered is not valid")
-
-
-def convert_millis(millis):
-    seconds = (millis / 1000) % 60
-    seconds = int(seconds)
-    minutes = (millis / (1000 * 60)) % 60
-    minutes = int(minutes)
-    hours = (millis / (1000 * 60 * 60)) % 24
-    hours = int(hours)
-    days = (millis / (1000 * 60 * 60 * 24)) % 7
-    days = int(days)
-
-    return seconds, minutes, hours, days
-
-
-# check if they are milliseconds or unix epoch
-def get_length(millis):
-    millis = str(millis)
-    length = len(millis)
-
-    while length != 13:
-        millis += "0"
-        length = len(millis)
-
-    return float(millis)
-
-
-def calc_work_hours(millis):
-
-    return 0
-
 
 if __name__ == '__main__':
     between()
